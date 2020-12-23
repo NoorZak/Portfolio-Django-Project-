@@ -20,9 +20,34 @@ class Skill(models.Model):
 
     title = models.CharField(max_length=45)
     desc = models.TextField(default="default!")
+    user = models.ForeignKey(User, related_name="skill_foruser", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    imgUrl = models.CharField(max_length=255)
 
     def __str__(self):
         return f"<Skill object: {self.title+self.desc} ({self.id})>"
+
+
+class Experience(models.Model):
+
+    title = models.CharField(max_length=45)
+    desc = models.TextField(default="default!")
+    user = models.ForeignKey(User, related_name="experience_foruser", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"<Skill object: {self.title+self.desc} ({self.id})>"
+
+
+class Contact(models.Model):
+
+    icon = models.CharField(max_length=45)
+    value = models.TextField(default="default!")
+    user = models.ForeignKey(User, related_name="contact_foruser", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return f"<Contact object: {self.icon+self.value} ({self.id})>"
