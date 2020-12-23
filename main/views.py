@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.urls import path,include
 
 # Create your views here.
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http.response import JsonResponse
+from .models import *
 
 # Create your views here.
 
@@ -22,14 +23,22 @@ def root(request):
 
 
 def skillsView(request):
+    skills= Skill.objects.all()
+
+    if request.POST:
+        skills= Skill.objects.filter(id=request.POST["search"])
+
     context={
-        "view":"skills/view"
+
+       "skills": skills,
+       "view":"skills/view"
     }
     return render(request,"temp.html",context)
 
-def skillsEdit(request):
+def skillsEdit(request,id):
     context={
-        "view":"skills/edit"
+        "view":"skills/edit",
+        "id":id
     }
     return render(request,"temp.html",context)
 
@@ -43,11 +52,23 @@ def skillsInsert(request):
     return render(request,"temp.html",context)
 
 
+def skillsDoInsert(request):
+    skill=insertSkill(request.POST,request.POST["search"])
+
+    return redirect(skillsView)
+
+
+
+def skillsDoEdit(request,id):
+    skill=editSkill(request.POST,id)
+    return redirect(skillsView)
+
 
 def experienceView(request):
     context={
         "view":"experience/view"
     }
+
     return render(request,"temp.html",context)
 
 
@@ -87,17 +108,27 @@ def contactsInsert(request):
     return render(request,"temp.html",context)
 
 
+
 def usersView(request):
+    users = getAllUsers()
+
+    if request.POST:
+        users = User.objects.filter(id=request.POST["search"])
+
     context={
-        "view":"users/view"
+        "view":"users/view",
+        "users" : users
+
             }
     return render(request,"temp.html",context)
 
 
-def usersEdit(request):
+def usersEdit(request,id):
     context={
-        "view":"users/edit"
+        "view":"users/edit",
+        "id":id
             }
+
     return render(request,"temp.html",context)
 
 
@@ -106,6 +137,15 @@ def usersInsert(request):
         "view":"users/insert"
     }
     return render(request,"temp.html",context)
+
+def usersDoInsert(request):
+    user=insertUser(request.POST)
+    return redirect(usersView)
+
+
+def usersDoEdit(request,id):
+    user=editUser(request.POST,id)
+    return redirect(usersView)
 
 
 

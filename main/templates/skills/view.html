@@ -1,14 +1,15 @@
          <div class="container">
 
 
-
+<form action="view" method="post">
+    {% csrf_token %}
                 <div class="divider-custom">
-                    <form>
-                      <input type="text" name="search" placeholder="Enter Email OF User">
-                    </form>
-                </div>
+                      <input type="text" name="search" placeholder="Enter id oF User">
+                <button type="submit" class="btn btn-dark">Search Skill By user id </button>
 
+                  </div>
 
+               </form>
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -19,15 +20,19 @@
     </tr>
   </thead>
 
+{%for skill in skills%}
   <tbody>
 
-        <tr>
-            <th scope="row">id</th>
 
-            <td>title</td>
-            <td>description</td>
+        <tr>
+            <th scope="row">{{skill.id}}</th>
+
+            <td>{{skill.title}}</td>
+            <td>{{skill.desc}}</td>
+
+
             <td>
-                <a href="edit">Edit</a><span>|</span>
+                <a href="edit/{{skill.id}}">Edit</a><span>|</span>
                 <a href="delete">Delete</a>
             </td>
 
@@ -35,7 +40,8 @@
         </tr>
 
   </tbody>
-</table>
+
+{%endfor%}</table>
 
 <a class="btn btn-primary" href="insert" role="button">Insert new skill</a>
 

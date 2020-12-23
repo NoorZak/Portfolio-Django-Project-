@@ -1,10 +1,17 @@
          <div class="container">
 
+
+
+<form action="view" method="post">
+    {% csrf_token %}
                 <div class="divider-custom">
-                    <form>
-                      <input type="text" name="search" placeholder="Enter Email OF User">
-                    </form>
-                </div>
+                      <input type="text" name="search" placeholder="Enter id oF User">
+                <button type="submit" class="btn btn-dark">Search USer By user id </button>
+
+                  </div>
+
+               </form>
+
 
 
 <table class="table">
@@ -20,21 +27,21 @@
     </tr>
   </thead>
 
+{%for user in users%}
   <tbody>
 
 
-
         <tr>
-            <th scope="row">id</th>
+            <th scope="row">{{user.id}}</th>
 
-            <td>ggg</td>
-            <td>fff</td>
-            <td>fff</td>
-            <td>fff</td>
+            <td>{{user.first_name}}</td>
+            <td>{{user.last_name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.password}}</td>
 
 
             <td>
-                <a href="edit">Edit</a><span>|</span>
+                <a href="edit/{{user.id}}">Edit</a><span>|</span>
                 <a href="delete">Delete</a>
             </td>
 
@@ -42,6 +49,8 @@
         </tr>
 
   </tbody>
+
+{%endfor%}
 </table>
 
 <a class="btn btn-primary" href="insert" role="button">Insert new user</a>
