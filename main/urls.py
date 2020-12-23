@@ -18,4 +18,6 @@ urlpatterns = [
     path('users/edit', views.usersEdit),
     path('users/insert', views.usersInsert),
 
+    path('users/validator', views.validator),
+
 ]
