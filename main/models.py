@@ -15,3 +15,14 @@ class User(models.Model):
     #objects = UserManager()
     def __str__(self):
         return f"<User object: {self.first_name+self.last_name} ({self.id})>"
+
+class Skill(models.Model):
+
+    title = models.CharField(max_length=45)
+    desc = models.TextField(default="default!")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    imgUrl = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"<Skill object: {self.title+self.desc} ({self.id})>"
