@@ -54,7 +54,6 @@ def skillsInsert(request):
 
 def skillsDoInsert(request):
     skill=insertSkill(request.POST,request.POST["search"])
-
     return redirect(skillsView)
 
 
@@ -65,16 +64,22 @@ def skillsDoEdit(request,id):
 
 
 def experienceView(request):
+    experiences= Experience.objects.all()
+
+    if request.POST:
+        experiences= Experience.objects.filter(id=request.POST["search"])
+
     context={
-        "view":"experience/view"
+
+       "experiences": experiences,
+       "view":"experience/view"
     }
-
     return render(request,"temp.html",context)
-
-
-def experienceEdit(request):
+ 
+def experienceEdit(request,id):
     context={
-        "view":"experience/edit"
+        "view":"experience/edit",
+        "id":id
     }
     return render(request,"temp.html",context)
 
@@ -82,8 +87,22 @@ def experienceEdit(request):
 def experienceInsert(request):
     context={
         "view":"experience/insert"
-            }
+
+    }
+
     return render(request,"temp.html",context)
+
+
+def experienceDoInsert(request):
+    experience=insertExperience(request.POST,request.POST["search"])
+    return redirect(experienceView)
+
+
+
+def experienceDoEdit(request,id):
+    experience=editExperience(request.POST,id)
+    return redirect(experienceView)
+
 
 
 

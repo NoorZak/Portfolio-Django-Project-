@@ -1,40 +1,51 @@
-         <div class="container">
-
-                <div class="divider-custom">
-                    <form>
-                      <input type="text" name="search" placeholder="Enter Email OF User">
-                    </form>
-                </div>
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Title</th>
-      <th scope="col">Description</th>
-        <th scope="col">Action</th>
-    </tr>
-  </thead>
-
-  <tbody>
-
-        <tr>
-            <th scope="row">id</th>
-
-            <td>title</td>
-            <td>description</td>
-            <td>
-                <a href="edit">Edit</a><span>|</span>
-                <a href="delete">Delete</a>
-            </td>
+<div class="container">
 
 
-        </tr>
-
-  </tbody>
-</table>
-
-<a class="btn btn-primary" href="insert" role="button">Insert new experience</a>
-
-
-            </div>
-
+        <form action="view" method="post">
+      {% csrf_token %}
+                  <div class="divider-custom">
+                        <input type="text" name="search" placeholder="Enter id oF User">
+                  <button type="submit" class="btn btn-dark">Search experience By user id </button>
+  
+                    </div>
+  
+        </form>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+          <th scope="col">Action</th>
+      </tr>
+    </thead>
+  
+  {%for ex in experiences%}
+    <tbody>
+  
+  
+          <tr>
+              <th scope="row">{{ex.id}}</th>
+  
+              <td>{{ex.title}}</td>
+              <td>{{ex.desc}}</td>
+  
+  
+              <td>
+                  <a href="edit/{{ex.id}}">Edit</a><span>|</span>
+                  <a href="delete">Delete</a>
+              </td>
+  
+  
+          </tr>
+  
+    </tbody>
+  
+  {%endfor%}</table>
+  
+  <a class="btn btn-primary" href="insert" role="button">Insert new experience</a>
+  
+  
+              </div>
+  
+  

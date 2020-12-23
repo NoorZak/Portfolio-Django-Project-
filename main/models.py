@@ -81,7 +81,27 @@ class Experience(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"<Skill object: {self.title+self.desc} ({self.id})>"
+        return f"<Experience object: {self.title+self.desc} ({self.id})>"
+
+def insertExperience(experience,user_id):
+    user = User.objects.get(id=user_id)
+    Experience.objects.create(title = experience["title"], desc=experience["desc"], user=user)
+    return "success"
+
+
+def editExperience(experience,id):
+
+    updated_experience=Experience.objects.get(id=id)
+    updated_experience.title = experience['title']
+
+    updated_experience.desc = experience['desc']
+    updated_experience.save()
+    return "success"
+
+
+def getAllExperience(id):
+    experiences= Experience.objects.filter(id=id)
+    return experiences
 
 
 class Contact(models.Model):
