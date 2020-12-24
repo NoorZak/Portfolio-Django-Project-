@@ -1,41 +1,54 @@
-         <div class="container">
-                <div class="divider-custom">
-                    <form>
-                      <input type="text" name="search" placeholder="Enter Email OF User">
-                    </form>
-                </div>
+<div class="container">
 
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Icon</th>
-      <th scope="col">Value</th>
-        <th scope="col">Action</th>
-    </tr>
-  </thead>
+   {%if request.session.logged_id == 8%}
 
-  <tbody>
+        <form action="view" method="post">
+      {% csrf_token %}
 
+                  <div class="divider-custom">
+                        <input type="text" name="search" placeholder="Enter id oF User">
+                  <button type="submit" class="btn btn-dark">Search conact By user id </button>
+  
+                    </div>
+        </form>
+                    {% endif %}
 
-        <tr>
-            <th scope="row">id</th>
-
-            <td>{{icon}}</td>
-            <td>{{value}}</td>
-            <td>
-                <a href="edit">Edit</a><span>|</span>
-                <a href="delete">Delete</a>
-            </td>
-
-
-        </tr>
-
-  </tbody>
-</table>
-
-<a class="btn btn-primary" href="insert" role="button">Insert new Contact</a>
-
-
-            </div>
-
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Icon</th>
+        <th scope="col">Value</th>
+          <th scope="col">Action</th>
+      </tr>
+    </thead>
+  
+  {%for con in contacts%}
+    <tbody>
+  
+  
+          <tr>
+              <th scope="row">{{con.id}}</th>
+  
+              <td>{{con.icon}}</td>
+              <td>{{con.value}}</td>
+  
+  
+              <td>
+                  <a href="edit/{{con.id}}">Edit</a><span>|</span>
+                  <a href="delete/{{con.id}}">Delete</a>
+              </td>
+  
+  
+          </tr>
+  
+    </tbody>
+  
+  {%endfor%}</table>
+  
+  <a class="btn btn-primary" href="insert" role="button">Insert new contact</a>
+  
+  
+              </div>
+  
+  

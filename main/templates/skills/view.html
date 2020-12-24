@@ -1,8 +1,9 @@
          <div class="container">
-
+   {%if request.session.logged_id == 8%}
 
 <form action="view" method="post">
     {% csrf_token %}
+
                 <div class="divider-custom">
                       <input type="text" name="search" placeholder="Enter id oF User">
                 <button type="submit" class="btn btn-dark">Search Skill By user id </button>
@@ -10,6 +11,7 @@
                   </div>
 
                </form>
+      {% endif %}
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -33,7 +35,7 @@
 
             <td>
                 <a href="edit/{{skill.id}}">Edit</a><span>|</span>
-                <a href="delete">Delete</a>
+                <a href="delete/{{skill.id}}">Delete</a>
             </td>
 
 

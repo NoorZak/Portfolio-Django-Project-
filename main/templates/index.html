@@ -68,6 +68,7 @@
                 </div>
                 <div class="divider-custom">
                     <form class="col-md-offset-3 col-md-6" action="login" method="post">
+                {% csrf_token %}
 
                         <div class="form-group">
                             <label for="logged_email" class="control-label">Email</label>
@@ -93,6 +94,8 @@
                 </div>
                 <div class="divider-custom">
                     <form class="col-md-offset-3 col-md-6" action="register" method="post">
+                                        {% csrf_token %}
+
                         <div class="form-group">
                             <label for="first_name" class="control-label">First Name</label>
                             <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name">
@@ -102,16 +105,16 @@
                             <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name">
                         </div>
                         <div class="form-group">
-                            <label for="logged_email" class="control-label">Email</label>
-                            <input type="email" class="form-control" id="logged_email" name="logged_email" placeholder="Email">
+                            <label for="email" class="control-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                         </div>
                         <div class="form-group">
-                            <label for="logged_pwd" class="control-label">Password</label>
-                            <input type="password" class="form-control" id="logged_pwd" name="logged_pwd" placeholder="Password">
+                            <label for="password" class="control-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                         </div>
                         <div class="form-group">
-                            <label for="conf_pwd" class="control-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="conf_pwd" name="conf_pwd" placeholder="Confirm Password">
+                            <label for="cpassword" class="control-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="Confirm Password">
                         </div>
                         <button type="submit" class="btn btn-dark">Register</button>
                     </form>

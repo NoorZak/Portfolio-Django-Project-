@@ -68,11 +68,10 @@
                 </div>
 
                 <ul>
-                <li class="h3">Title : Description</li>
 
-                <li class="h3">Title : Description</li>
-                <li class="h3">Title : Description</li>
-
+                        {%for skill in skills%}
+                <li class="h3">{{skill.title}} : {{skill.desc}}</li>
+                        {%endfor%}
                 </ul>
 
 
@@ -90,13 +89,9 @@
                     <div class="divider-custom-line"></div>
                 </div>
                 <ul>
-                <li class="h3">Title : Description</li>
-
-                <li class="h3">Title : Description</li>
-
-                                <li class="h3">Title : Description</li>
-                <li class="h3">Title : Description</li>
-
+                        {%for ex in experiences%}
+                <li class="h3">{{ex.title}} : {{ex.desc}}</li>
+                        {%endfor%}
                 </ul>
                </div>
         </section>
@@ -107,10 +102,9 @@
                     <h1 class="page-section-heading text-center text-uppercase text-white">Contact</h1>
 
                     <div class=" scol-lg-3 mb-5 mb-lg-0">
-                       <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-twitter"></i></a>
-                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-linkedin-in"></i></a>
-                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-dribbble"></i></a>
+                        {%for contact in contacts%}
+                       <a class="btn btn-outline-light btn-social mx-1" href="{{contact.value}}"><i class="fab fa-fw {{contact.icon}}"></i></a>
+                        {%endfor%}
                     </div>
 
             </div>

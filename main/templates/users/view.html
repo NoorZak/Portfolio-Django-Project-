@@ -1,6 +1,7 @@
          <div class="container">
 
 
+   {%if request.session.logged_id == 8%}
 
 <form action="view" method="post">
     {% csrf_token %}
@@ -12,7 +13,7 @@
 
                </form>
 
-
+    {% endif %}
 
 <table class="table">
   <thead class="thead-dark">
@@ -42,7 +43,7 @@
 
             <td>
                 <a href="edit/{{user.id}}">Edit</a><span>|</span>
-                <a href="delete">Delete</a>
+                <a href="delete/{{user.id}}">Delete</a>
             </td>
 
 
@@ -53,8 +54,11 @@
 {%endfor%}
 </table>
 
+   {%if request.session.logged_id == 8%}
+
 <a class="btn btn-primary" href="insert" role="button">Insert new user</a>
 
 
+ {% endif %}
             </div>
 

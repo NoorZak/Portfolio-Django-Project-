@@ -31,6 +31,9 @@ def editUser(user,id):
     updated_user.save()
     return "success"
 
+def getUserById(id):
+    users= User.objects.filter(id=id)
+    return users
 
 def getAllUsers():
     users=User.objects.all()
@@ -68,9 +71,11 @@ def editSkill(skill,id):
     return "success"
 
 
-def getAllSkills(id):
-    skills = Skill.objects.filter(id=id)
+def getAllSkillsForUser(id):
+    user = User.objects.get(id=id)
+    skills = Skill.objects.filter(user=user)
     return skills
+
 
 class Experience(models.Model):
 
@@ -99,8 +104,9 @@ def editExperience(experience,id):
     return "success"
 
 
-def getAllExperience(id):
-    experiences= Experience.objects.filter(id=id)
+def getAllExperienceForUser(id):
+    user = User.objects.get(id=id)
+    experiences= Experience.objects.filter(user=user)
     return experiences
 
 
@@ -115,3 +121,25 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"<Contact object: {self.icon+self.value} ({self.id})>"
+
+
+def insertContact(contact,user_id):
+    user = User.objects.get(id=user_id)
+    Contact.objects.create(icon = contact["icon"], value=contact["val"], user=user)
+    return "success"
+
+
+def editContact(contact,id):
+    updated_contact=Contact.objects.get(id=id)
+    updated_contact.icon = contact['icon']
+
+    updated_contact.value = contact['val']
+    updated_contact.save()
+    return "success"
+
+
+def getAllContactsForUser(id):
+    user = User.objects.get(id=id)
+
+    contacts = Contact.objects.filter(user=user)
+    return contacts

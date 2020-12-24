@@ -5,14 +5,20 @@ from django.urls import path,include
 from django.shortcuts import render,redirect
 from django.http.response import JsonResponse
 from .models import *
+import re	# the regex module
+import bcrypt
+
+# Create your views here.
+from django.urls import reverse
+
+from django.contrib import messages
+
 
 # Create your views here.
 
-def resumeForUser(request):
-    return  render(request,"resumeForUser.html")
-
 def index(request):
     return  render(request,"index.html")
+
 def root(request):
     context={
         "view": "empty"
@@ -23,10 +29,13 @@ def root(request):
 
 
 def skillsView(request):
-    skills= Skill.objects.all()
+    if request.session["logged_id"]==8:
+        skills= Skill.objects.all()
+    else :
+        skills = getAllSkillsForUser(request.session["logged_id"])
 
     if request.POST:
-        skills= Skill.objects.filter(id=request.POST["search"])
+        skills= getAllSkillsForUser(request.POST["search"])
 
     context={
 
@@ -53,7 +62,12 @@ def skillsInsert(request):
 
 
 def skillsDoInsert(request):
-    skill=insertSkill(request.POST,request.POST["search"])
+    if request.session["logged_id"] == 8:
+        skill = insertSkill(request.POST, request.POST["search"])
+
+    else:
+        skill = insertSkill(request.POST, request.session["logged_id"])
+
     return redirect(skillsView)
 
 
@@ -63,11 +77,22 @@ def skillsDoEdit(request,id):
     return redirect(skillsView)
 
 
+def skillsDelete(request,id):
+    skill_to_delete = Skill.objects.get(id=id)
+    skill_to_delete.delete()
+    return redirect(skillsView)
+
 def experienceView(request):
-    experiences= Experience.objects.all()
+
+    if request.session["logged_id"]==8:
+        experiences = Experience.objects.all()
+
+    else:
+        experiences = getAllExperienceForUser(request.session["logged_id"])
 
     if request.POST:
-        experiences= Experience.objects.filter(id=request.POST["search"])
+        experiences= getAllExperienceForUser(request.POST["search"])
+
 
     context={
 
@@ -94,7 +119,13 @@ def experienceInsert(request):
 
 
 def experienceDoInsert(request):
-    experience=insertExperience(request.POST,request.POST["search"])
+
+    if request.session["logged_id"] == 8:
+        experience = insertExperience(request.POST, request.POST["search"])
+
+    else:
+        experience = insertExperience(request.POST, request.session["logged_id"])
+
     return redirect(experienceView)
 
 
@@ -104,32 +135,78 @@ def experienceDoEdit(request,id):
     return redirect(experienceView)
 
 
+def experienceDelete(request,id):
+    experience_to_delete = Experience.objects.get(id=id)
+    experience_to_delete.delete()
+
+    return redirect(experienceView)
 
 
 def contactsView(request):
-    context={
-        "view":"contacts/view"
-            }
-    return render(request,"temp.html",context)
+    if request.session["logged_id"]==8:
+        contacts = Contact.objects.all()
+    else :
+        contacts = getAllContactsForUser(request.session["logged_id"])
+
+    if request.POST:
+        contacts = getAllContactsForUser(request.POST["search"])
+
+    context = {
+
+        "contacts": contacts,
+        "view": "contacts/view"
+    }
+    return render(request, "temp.html", context)
 
 
-def contactsEdit(request):
+def contactsEdit(request,id):
     context={
-        "view":"contacts/edit"
-            }
+        "view":"contacts/edit",
+        "id":id
+    }
     return render(request,"temp.html",context)
 
 
 def contactsInsert(request):
     context={
         "view":"contacts/insert"
+
     }
+
     return render(request,"temp.html",context)
 
 
+def contactsDoInsert(request):
+    if request.session["logged_id"] == 8:
+        contact = insertContact(request.POST, request.POST["search"])
+
+    else:
+        contact = insertContact(request.POST, request.session["logged_id"])
+
+
+    return redirect(contactsView)
+
+
+
+
+def contactsDelete(request,id):
+    contact_to_delete = Contact.objects.get(id=id)
+    contact_to_delete.delete()
+
+    return redirect(contactsView)
+
+
+def contactsDoEdit(request,id):
+    contact=editContact(request.POST,id)
+    return redirect(contactsView)
+
 
 def usersView(request):
-    users = getAllUsers()
+
+    if request.session["logged_id"]==8:
+        users = getAllUsers()
+    else :
+        users = getUserById(request.session["logged_id"])
 
     if request.POST:
         users = User.objects.filter(id=request.POST["search"])
@@ -150,6 +227,12 @@ def usersEdit(request,id):
 
     return render(request,"temp.html",context)
 
+def usersDelete(request,id):
+    user =User.objects.get(id=id)
+    user.delete()
+
+    return redirect(usersView)
+
 
 def usersInsert(request):
     context={
@@ -166,6 +249,72 @@ def usersDoEdit(request,id):
     user=editUser(request.POST,id)
     return redirect(usersView)
 
+
+
+def resumeForUser(request,id):
+    user=User.objects.get(id=id)
+    skills=Skill.objects.filter(user=user)
+    experiences=Experience.objects.filter(user=user)
+    contacts=Contact.objects.filter(user=user)
+
+    context={
+        "skills":skills,
+        "experiecns":experiences,
+         "contacts":contacts,
+
+    }
+    return render(request,"resumeForUser.html",context)
+
+
+
+def register(request):
+    if request.POST:
+        #print(request.POST)
+        # errors = User.objects.register_validator(request.POST)
+        # if len(errors) > 0:
+        #     for key, value in errors.items():
+        #         messages.error(request, value)
+        #
+        #     return render(request,"index.html")
+        # else:
+
+            user =User.objects.create(first_name=request.POST["first_name"],last_name=request.POST["last_name"],email=request.POST["email"],password=request.POST["password"])
+            request.session["logged_id"] = user.id
+            request.session["Reg"] = "Register"
+
+            return redirect(root)
+
+
+def login(request):
+    if request.POST:
+        #errors = User.objects.login_validator(request.POST)
+        # if len(errors) > 0:
+        #     for key, value in errors.items():
+        #         messages.error(request, value)
+        #
+        #     return render(request, "index.html")
+
+        try :
+                user=User.objects.get(email =request.POST["logged_email"])
+
+                if (request.POST['logged_pwd']== user.password):
+                    request.session["logged_id"] = user.id
+                    if "Reg" in request.session:
+                        del request.session["Reg"]
+                    return redirect(root)
+
+                else:
+                    return redirect(index)
+
+        except:
+                return redirect(index)
+
+
+
+def logout(request):
+    if "logged_id" in request.session:
+        del request.session["logged_id"]
+    return redirect(index)
 
 
 def validator(request):
