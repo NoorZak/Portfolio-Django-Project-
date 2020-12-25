@@ -30,7 +30,6 @@
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">About</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#search">Search</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Contact</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#users">users</a></li>
 
                     </ul>
                 </div>
@@ -84,6 +83,15 @@
             </div>
         </section>
         <section class="page-section portfolio" id="register">
+
+               {% if messages %}
+                <ul class="messages">
+                {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+
             <div class="container">
                 <!-- Portfolio Section Heading-->
                 <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Register</h2>
@@ -124,10 +132,10 @@
 
 
 
-       <section class="masthead bg-primary text-white text-center" id="about">
-            <div class="container">
+       <section class=" masthead bg-primary text-white text-center" id="about">
+            <div class="container " >
                 <!-- About Section Heading-->
-                <h2 class="page-section-heading text-center text-uppercase text-white">About</h2>
+                <h1  style="font-size:50px" class="page-section-heading text-center text-uppercase text-white">About</h1>
                 <!-- Icon Divider-->
                 <div class="divider-custom divider-light">
                     <div class="divider-custom-line"></div>
@@ -135,18 +143,10 @@
                     <div class="divider-custom-line"></div>
                 </div>
                 <!-- About Section Content-->
-                <div class="row">
-                    <div class="col-lg-4 ml-auto"><p class="lead">Freelancer is a free bootstrap theme created by Start Bootstrap. The download includes the complete source files including HTML, CSS, and JavaScript as well as optional SASS stylesheets for easy customization.</p></div>
-                    <div class="col-lg-4 mr-auto"><p class="lead">You can create your own custom avatar for the masthead, change the icon in the dividers, and add your email address to the contact form to make it fully functional!</p></div>
-                </div>
+
+                    <p class="lead text-uppercase text-center">This website where done by Noor aldeen Zakarneh<br> , Bashar Shamlawi and Shatha Bast with supervision of Instructor Ibtisal </p>
                 <!-- About Section Button-->
-                <div class="text-center mt-4">
-                    <a class="btn btn-xl btn-outline-light" href="https://startbootstrap.com/theme/freelancer/">
-                        <i class="fas fa-download mr-2"></i>
-                        Free Download!
-                    </a>
-                </div>
-            </div>
+                 </div>
         </section>
         <!-- Contact Section-->
 
@@ -164,9 +164,11 @@
 
 
                 <div class="divider-custom">
-                    <form>
+                    <form action="resumeForUser" method="post">
+                            {% csrf_token %}
+
                         <div class="active-cyan-3 active-cyan-4 mb-4">
-                            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+                            <input class="form-control" name="search" type="text" placeholder="Search" aria-label="Search">
                         </div>
                     </form>
                 </div>
@@ -214,5 +216,7 @@
         <script src="{% static 'assets/mail/contact_me.js' %}"></script>
 
         <script src="{% static 'js/scripts.js'%}"></script>
+        
+        <script src="{% static 'js/searchUsers.js'%}"></script>
     </body>
 </html>

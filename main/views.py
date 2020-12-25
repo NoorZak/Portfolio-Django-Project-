@@ -7,7 +7,9 @@ from django.http.response import JsonResponse
 from .models import *
 import re	# the regex module
 import bcrypt
-
+from django.core.files.storage import FileSystemStorage
+import json
+from django.http import JsonResponse
 # Create your views here.
 from django.urls import reverse
 
@@ -20,15 +22,24 @@ def index(request):
     return  render(request,"index.html")
 
 def root(request):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     context={
         "view": "empty"
 
 
     }
+    context['logged_user'] = User.objects.get(id=request.session["logged_id"])
     return render(request,"temp.html",context)
 
 
 def skillsView(request):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     if request.session["logged_id"]==8:
         skills= Skill.objects.all()
     else :
@@ -45,6 +56,10 @@ def skillsView(request):
     return render(request,"temp.html",context)
 
 def skillsEdit(request,id):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     context={
         "view":"skills/edit",
         "id":id
@@ -53,6 +68,10 @@ def skillsEdit(request,id):
 
 
 def skillsInsert(request):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     context={
         "view":"skills/insert"
 
@@ -62,6 +81,10 @@ def skillsInsert(request):
 
 
 def skillsDoInsert(request):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     if request.session["logged_id"] == 8:
         skill = insertSkill(request.POST, request.POST["search"])
 
@@ -73,16 +96,28 @@ def skillsDoInsert(request):
 
 
 def skillsDoEdit(request,id):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     skill=editSkill(request.POST,id)
     return redirect(skillsView)
 
 
 def skillsDelete(request,id):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     skill_to_delete = Skill.objects.get(id=id)
     skill_to_delete.delete()
     return redirect(skillsView)
 
 def experienceView(request):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
 
     if request.session["logged_id"]==8:
         experiences = Experience.objects.all()
@@ -102,6 +137,10 @@ def experienceView(request):
     return render(request,"temp.html",context)
  
 def experienceEdit(request,id):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     context={
         "view":"experience/edit",
         "id":id
@@ -110,6 +149,10 @@ def experienceEdit(request,id):
 
 
 def experienceInsert(request):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     context={
         "view":"experience/insert"
 
@@ -119,6 +162,10 @@ def experienceInsert(request):
 
 
 def experienceDoInsert(request):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
 
     if request.session["logged_id"] == 8:
         experience = insertExperience(request.POST, request.POST["search"])
@@ -131,6 +178,10 @@ def experienceDoInsert(request):
 
 
 def experienceDoEdit(request,id):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     experience=editExperience(request.POST,id)
     return redirect(experienceView)
 
@@ -143,6 +194,10 @@ def experienceDelete(request,id):
 
 
 def contactsView(request):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     if request.session["logged_id"]==8:
         contacts = Contact.objects.all()
     else :
@@ -160,6 +215,10 @@ def contactsView(request):
 
 
 def contactsEdit(request,id):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     context={
         "view":"contacts/edit",
         "id":id
@@ -168,6 +227,10 @@ def contactsEdit(request,id):
 
 
 def contactsInsert(request):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     context={
         "view":"contacts/insert"
 
@@ -190,6 +253,10 @@ def contactsDoInsert(request):
 
 
 def contactsDelete(request,id):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     contact_to_delete = Contact.objects.get(id=id)
     contact_to_delete.delete()
 
@@ -203,13 +270,15 @@ def contactsDoEdit(request,id):
 
 def usersView(request):
 
+    if "logged_id" not in request.session:
+        return redirect(index)
+
+
     if request.session["logged_id"]==8:
         users = getAllUsers()
     else :
         users = getUserById(request.session["logged_id"])
 
-    if request.POST:
-        users = User.objects.filter(id=request.POST["search"])
 
     context={
         "view":"users/view",
@@ -220,6 +289,10 @@ def usersView(request):
 
 
 def usersEdit(request,id):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     context={
         "view":"users/edit",
         "id":id
@@ -228,6 +301,10 @@ def usersEdit(request,id):
     return render(request,"temp.html",context)
 
 def usersDelete(request,id):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     user =User.objects.get(id=id)
     user.delete()
 
@@ -235,33 +312,48 @@ def usersDelete(request,id):
 
 
 def usersInsert(request):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     context={
         "view":"users/insert"
     }
     return render(request,"temp.html",context)
 
 def usersDoInsert(request):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     user=insertUser(request.POST)
     return redirect(usersView)
 
 
 def usersDoEdit(request,id):
+
+    if "logged_id" not in request.session:
+        return redirect(index)
+
     user=editUser(request.POST,id)
     return redirect(usersView)
 
 
 
-def resumeForUser(request,id):
-    user=User.objects.get(id=id)
+def resumeForUser(request,id=None):
+    if request.method =="POST":
+        user = User.objects.get(id=request.POST["search"])
+    else:
+        user=User.objects.get(id=id)
     skills=Skill.objects.filter(user=user)
     experiences=Experience.objects.filter(user=user)
     contacts=Contact.objects.filter(user=user)
 
     context={
         "skills":skills,
-        "experiecns":experiences,
+        "experiences":experiences,
          "contacts":contacts,
-
+        "user":user
     }
     return render(request,"resumeForUser.html",context)
 
@@ -269,17 +361,18 @@ def resumeForUser(request,id):
 
 def register(request):
     if request.POST:
-        #print(request.POST)
-        # errors = User.objects.register_validator(request.POST)
-        # if len(errors) > 0:
-        #     for key, value in errors.items():
-        #         messages.error(request, value)
-        #
-        #     return render(request,"index.html")
-        # else:
+        errors = User.objects.register_validator(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value)
+
+            return render(request,"index.html")
+        else:
 
             user =User.objects.create(first_name=request.POST["first_name"],last_name=request.POST["last_name"],email=request.POST["email"],password=request.POST["password"])
             request.session["logged_id"] = user.id
+            request.session["logged_name"] = user.first_name+" "+user.last_name
+
             request.session["Reg"] = "Register"
 
             return redirect(root)
@@ -287,18 +380,19 @@ def register(request):
 
 def login(request):
     if request.POST:
-        #errors = User.objects.login_validator(request.POST)
-        # if len(errors) > 0:
-        #     for key, value in errors.items():
-        #         messages.error(request, value)
-        #
-        #     return render(request, "index.html")
+        errors = User.objects.login_validator(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value)
+
+            return render(request, "index.html")
 
         try :
                 user=User.objects.get(email =request.POST["logged_email"])
 
                 if (request.POST['logged_pwd']== user.password):
                     request.session["logged_id"] = user.id
+                    request.session["logged_name"] = user.first_name + " " + user.last_name
                     if "Reg" in request.session:
                         del request.session["Reg"]
                     return redirect(root)
@@ -317,31 +411,54 @@ def logout(request):
     return redirect(index)
 
 
-def validator(request):
-        errors = {}
-        # add keys and values to errors dictionary for each invalid field
-        if len(request.POST["first_name"]) < 2:
-
-            errors["fname_error"] = "First name should be at least 2 characters"
-
-        if len(request.POST["last_name"]) < 2:
-            errors["lname_error"] = "Last name should be at least 2 characters"
-
-        if len(request.POST['password']) < 8:
-            errors["pwd_error"] = "Passwords should be more than 8 characters"
-
-        if (request.POST["cpassword"] !=request.POST['password']) :
-            errors["pwd_error"] = "Passwords should match"
-            errors["cpwd_error"] = "Passwords should match"
-
-        #EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
-        #if not EMAIL_REGEX.match(postData['email']):  # test whether a field matches the pattern
-         #   errors['email'] = "Invalid email address!"
-        context={
-            "errors":errors,
-            "view":"users/insert"
-        }
-
-        return render(request,"temp.html",context)
 
 
+def upload(request):
+    if "logged_id" not in request.session:
+        return redirect(index)
+
+    context = {
+        "view": "upload"
+    }
+    return  render(request ,"temp.html",context)
+
+
+def doUpload(request):
+    if "logged_id" not in request.session:
+        return redirect(index)
+
+    context = {}
+    if request.method == 'POST':
+        uploaded_file = request.FILES['document']
+
+        fs = FileSystemStorage()
+        name = fs.save(uploaded_file.name, uploaded_file)
+        context['url'] = fs.url(name)
+        context['view']="empty"
+        context['logged_user'] = User.objects.get(id=request.session["logged_id"])
+
+        #    if request.session["logged_id"]==8:
+ #       users = getAllUsers()
+  #  else :
+        if "id" in request.POST:
+            user = User.objects.get(id=request.POST["id"])
+        else:
+            user = User.objects.get(id=request.session["logged_id"])
+        user.imgUrl=fs.url(name)
+        user.save()
+    return render(request, 'temp.html', context)
+
+
+def searchUsers(request):
+    if request.method=='POST':
+         search_str= json.loads(request.body)["searchText"]
+
+         if search_str.isnumeric():
+             users = User.objects.filter(id=search_str)
+         else:
+             users=User.objects.filter(first_name__startswith = search_str) |User.objects.filter(last_name__startswith=search_str) | User.objects.filter(email__startswith=search_str)
+          #
+         data = users.values()
+
+
+    return JsonResponse(list(data), safe=False)

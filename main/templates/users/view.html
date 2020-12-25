@@ -1,19 +1,19 @@
+
+{% load static %}
          <div class="container">
 
-
    {%if request.session.logged_id == 8%}
-
-<form action="view" method="post">
     {% csrf_token %}
-                <div class="divider-custom">
-                      <input type="text" name="search" placeholder="Enter id oF User">
-                <button type="submit" class="btn btn-dark">Search USer By user id </button>
+             <div class="divider-custom">
+                <input type="text" name="searchField" id="searchField" placeholder="Search">
 
-                  </div>
+                </div>
 
-               </form>
 
+
+               
     {% endif %}
+
 
 <table class="table">
   <thead class="thead-dark">
@@ -27,9 +27,9 @@
         <th scope="col">Action</th>
     </tr>
   </thead>
+ <tbody id="tbody">
 
 {%for user in users%}
-  <tbody>
 
 
         <tr>
@@ -49,9 +49,10 @@
 
         </tr>
 
-  </tbody>
 
 {%endfor%}
+  </tbody>
+
 </table>
 
    {%if request.session.logged_id == 8%}
@@ -62,3 +63,6 @@
  {% endif %}
             </div>
 
+
+
+        <script src="{% static 'js/searchUsers.js'%}"></script>

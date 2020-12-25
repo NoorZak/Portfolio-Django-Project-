@@ -1,1 +1,6 @@
-<h1>hello</h1>
+   {%if logged_user.imgUrl%}
+<div >
+<img src="{{logged_user.imgUrl}}" alt="..." class="rounded" height="300" width="300" >
+
+</div>
+   {%endif%}
