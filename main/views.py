@@ -27,7 +27,7 @@ def root(request):
         return redirect(index)
 
     context={
-        "view": "empty"
+        "view": "afterLogin"
 
 
     }
@@ -439,7 +439,7 @@ def doUpload(request):
         fs = FileSystemStorage()
         name = fs.save(uploaded_file.name, uploaded_file)
         context['url'] = fs.url(name)
-        context['view']="empty"
+        context['view']="afterLogin"
         context['logged_user'] = User.objects.get(id=request.session["logged_id"])
 
         #    if request.session["logged_id"]==8:
