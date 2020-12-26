@@ -295,6 +295,9 @@ def usersView(request):
         "users" : users
 
             }
+    user = User.objects.get(id=request.session["logged_id"])
+    request.session["logged_name"] = user.first_name + " " + user.last_name
+
     return render(request,"temp.html",context)
 
 
