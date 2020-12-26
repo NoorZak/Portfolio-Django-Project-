@@ -32,6 +32,11 @@ def root(request):
 
     }
     context['logged_user'] = User.objects.get(id=request.session["logged_id"])
+    context['skills'] = getAllSkillsForUser(request.session["logged_id"])
+
+    context['experiences'] = getAllExperienceForUser(request.session["logged_id"])
+    context['contacts'] = getAllContactsForUser(request.session["logged_id"])
+
     return render(request,"temp.html",context)
 
 
