@@ -6,13 +6,13 @@
 
                 <div class="form-group">
                     <label for="icon" class="control-label">Icon</label>
-                    <input type="text" class="form-control" id="icon" name="icon" placeholder="Icon" required>
+                    <input type="text" class="form-control" id="icon" name="icon" value="{{contact.icon}}"placeholder="Icon" required>
                 </div>
 
 
                 <div class="form-group">
                     <label for="val" class="control-label">Value</label>
-                    <textarea class="form-control" id="val" name="val" placeholder="Value" required></textarea>
+                    <textarea class="form-control" id="val" name="val" placeholder="Value" required>{{contact.value}}</textarea>
                 </div>
 
                 <button type="submit" class="btn btn-dark">Edit</button>

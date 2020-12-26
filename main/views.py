@@ -64,10 +64,11 @@ def skillsEdit(request,id):
 
     if "logged_id" not in request.session:
         return redirect(index)
-
+    skill= Skill.objects.get(id=id)
     context={
         "view":"skills/edit",
-        "id":id
+        "id":id,
+        "skill":skill
     }
     return render(request,"temp.html",context)
 
@@ -145,10 +146,12 @@ def experienceEdit(request,id):
 
     if "logged_id" not in request.session:
         return redirect(index)
+    exp = Experience.objects.get(id=id)
 
     context={
         "view":"experience/edit",
-        "id":id
+        "id":id,
+        "exp":exp
     }
     return render(request,"temp.html",context)
 
@@ -223,10 +226,12 @@ def contactsEdit(request,id):
 
     if "logged_id" not in request.session:
         return redirect(index)
+    contact = Contact.objects.get(id=id)
 
     context={
         "view":"contacts/edit",
-        "id":id
+        "id":id,
+        "contact":contact
     }
     return render(request,"temp.html",context)
 
@@ -297,10 +302,11 @@ def usersEdit(request,id):
 
     if "logged_id" not in request.session:
         return redirect(index)
-
+    user = User.objects.get(id=id)
     context={
         "view":"users/edit",
-        "id":id
+        "id":id,
+        "user":user
             }
 
     return render(request,"temp.html",context)
@@ -342,6 +348,7 @@ def usersDoEdit(request,id):
         return redirect(index)
 
     user=editUser(request.POST,id)
+
     return redirect(usersView)
 
 
