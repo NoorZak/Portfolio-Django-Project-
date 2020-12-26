@@ -1,222 +1,353 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Portfolio</title>
-       {% load static %}
-        <link rel="icon" type="image/x-icon" href="{%static 'assets/img/favicon.ico' %}" />
-        <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="{%static 'css/styles.css'%}" rel="stylesheet" />
-    </head>
-    <body id="page-top">
-       {% load static %}
-        <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
-            <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">Portfolio</a>
-                <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#login">Login</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#register">Register</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">About</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#search">Search</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Contact</a></li>
 
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <!-- Masthead-->
-        <header class="masthead bg-primary text-white text-center">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Portfolio</title>
+    {% load static %}
+    <link rel="icon" type="image/x-icon" href="{%static 'assets/img/favicon.ico' %}" />
+    <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet"
+        type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{%static 'css/styles.css'%}" rel="stylesheet" />
+    <style>
+            input[type=submit] {
+            background-color: #4CAF50;
+            color: white;
+            }
+        #message {
+            display:none;
+            background: #f1f1f1;
+            color: #000;
+            position: relative;
+            padding: 20px;
+            margin-top: 10px;
+        }
 
-            <div class="container d-flex align-items-center flex-column">
-                <!-- Masthead Avatar Image-->
+        #message p {
+            padding: 10px 35px;
+            font-size: 16px;
+        }
 
-                <img class="masthead-avatar mb-5" src="{%static 'assets/img/avataaars.svg'%}" alt=" " />
-                <!-- Masthead Heading-->
-                <h1 class="masthead-heading text-uppercase mb-0">Portfolio</h1>
-                <!-- Icon Divider-->
-                <div class="divider-custom divider-light">
-                    <div class="divider-custom-line"></div>
-                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                    <div class="divider-custom-line"></div>
-                </div>
-                     </div>
-        </header>
-        <!-- Portfolio Section-->
+        /* Add a green text color and a checkmark when the requirements are right */
+        .valid {
+        color: green;
+        }
 
+        .valid:before {
+        position: relative;
+        left: -25px;
+        content: "✔";
+        }
 
+        /* Add a red text color and an "x" icon when the requirements are wrong */
+        .invalid {
+        color: red;
+        }
 
-        <section class="page-section portfolio" id="login">
-            <div class="container">
-                <!-- Portfolio Section Heading-->
-                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Login</h2>
-                <div class="divider-custom divider-dark">
-                    <div class="divider-custom-line"></div>
-                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                    <div class="divider-custom-line"></div>
-                </div>
-                <div class="divider-custom">
-                    <form class="col-md-offset-3 col-md-6" action="login" method="post">
-                {% csrf_token %}
+        .invalid:before {
+            position: relative;
+            left: -35px;
+            content: "✖";
+        }
+    </style>
+</head>
 
-                        <div class="form-group">
-                            <label for="logged_email" class="control-label">Email</label>
-                            <input type="email" class="form-control" id="logged_email" name="logged_email" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <label for="logged_pwd" class="control-label">Password</label>
-                            <input type="password" class="form-control" id="logged_pwd" name="logged_pwd" placeholder="password">
-                        </div>
-                        <button type="submit" class="btn btn-dark">Login</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-        <section class="page-section portfolio" id="register">
+<body id="page-top">
+    {% load static %}
+    <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">Portfolio</a>
+            <button
+                class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded"
+                type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                            href="#login">Login</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                            href="#register">Register</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                            href="#about">About</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                            href="#search">Search</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                            href="#contact">Contact</a></li>
 
-               {% if messages %}
-                <ul class="messages">
-                {% for message in messages %}
-                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
                 </ul>
-                {% endif %}
-
-            <div class="container">
-                <!-- Portfolio Section Heading-->
-                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Register</h2>
-                <div class="divider-custom divider-dark">
-                    <div class="divider-custom-line"></div>
-                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                    <div class="divider-custom-line"></div>
-                </div>
-                <div class="divider-custom">
-                    <form class="col-md-offset-3 col-md-6" action="register" method="post">
-                                        {% csrf_token %}
-
-                        <div class="form-group">
-                            <label for="first_name" class="control-label">First Name</label>
-                            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="last_name" class="control-label">Last Name</label>
-                            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="email" class="control-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <label for="password" class="control-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                        </div>
-                        <div class="form-group">
-                            <label for="cpassword" class="control-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="Confirm Password">
-                        </div>
-                        <button type="submit" class="btn btn-dark">Register</button>
-                    </form>
-                </div>
             </div>
-        </section>
+        </div>
+    </nav>
+    <!-- Masthead-->
+    <header class="masthead bg-primary text-white text-center">
 
+        <div class="container d-flex align-items-center flex-column">
+            <!-- Masthead Avatar Image-->
 
-
-       <section class=" masthead bg-primary text-white text-center" id="about">
-            <div class="container " >
-                <!-- About Section Heading-->
-                <h1  style="font-size:50px" class="page-section-heading text-center text-uppercase text-white">About</h1>
-                <!-- Icon Divider-->
-                <div class="divider-custom divider-light">
-                    <div class="divider-custom-line"></div>
-                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                    <div class="divider-custom-line"></div>
-                </div>
-                <!-- About Section Content-->
-
-                    <p class="lead text-uppercase text-center">This website where done by Noor aldeen Zakarneh<br> , Bashar Shamlawi and Shatha Bast with supervision of Instructor Ibtisal </p>
-                <!-- About Section Button-->
-                 </div>
-        </section>
-        <!-- Contact Section-->
-
-
-        <section class="page-section portfolio" id="search">
-            <div class="container">
-                <!-- Portfolio Section Heading-->
-                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Search</h2>
-                <div class="divider-custom divider-dark">
-                    <div class="divider-custom-line"></div>
-                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                    <div class="divider-custom-line"></div>
-                </div>
-                <!-- Icon Divider-->
-
-
-                <div class="divider-custom">
-                    <form action="resumeForUser" method="post">
-                            {% csrf_token %}
-
-                        <div class="active-cyan-3 active-cyan-4 mb-4">
-                            <input class="form-control" name="search" type="text" placeholder="Search" aria-label="Search">
-                        </div>
-                    </form>
-                </div>
-
+            <img class="masthead-avatar mb-5" src="{%static 'assets/img/avataaars.svg'%}" alt=" " />
+            <!-- Masthead Heading-->
+            <h1 class="masthead-heading text-uppercase mb-0">Portfolio</h1>
+            <!-- Icon Divider-->
+            <div class="divider-custom divider-light">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
             </div>
-        </section>
+        </div>
+    </header>
+    <!-- Portfolio Section-->
 
 
-        <!-- Footer-->
-        <footer class="footer text-center" id="contact">
 
-            <div class="container">
-                    <h1 class="page-section-heading text-center text-uppercase text-white">Contact Us</h1>
+    <section class="page-section portfolio" id="login">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <div class="container">
+            <!-- Portfolio Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Login</h2>
+            <div class="divider-custom divider-dark">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <div class="divider-custom">
+                <form class="col-md-offset-3 col-md-6" action="login" method="post">
+                    {% csrf_token %}
 
-                    <div class=" scol-lg-3 mb-5 mb-lg-0">
-                       <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-facebook-f"></i></a>
-                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-twitter"></i></a>
-                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-linkedin-in"></i></a>
-                        <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-dribbble"></i></a>
+                    <div class="form-group">
+                        <label for="logged_email" class="control-label">Email</label>
+                        <input type="email" class="form-control" id="logged_email" name="logged_email"
+                            placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required>
                     </div>
+                    <div class="form-group">
+                        <label for="logged_pwd" class="control-label">Password</label>
+                        <input type="password" class="form-control" id="logged_pwd" name="logged_pwd"
+                            placeholder="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                    </div>
+                    <button type="submit" class="btn btn-dark">Login</button>
+                </form>
+    </section>
+    <section class="page-section portfolio" id="register">
 
-                </div>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="container">
+            <!-- Portfolio Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Register</h2>
+            <div class="divider-custom divider-dark">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
             </div>
-        </footer>
-        <!-- Copyright Section-->
-        <div class="copyright py-4 text-center text-white">
-            <div class="container"><small>Copyright © Your Website 2020</small></div>
+            <div class="divider-custom">
+                <form class="col-md-offset-3 col-md-6" action="register" method="post">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="first_name" class="control-label">First Name</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name"
+                            placeholder="First Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name" class="control-label">Last Name</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="control-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="control-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                            placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cpassword" class="control-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="cpassword" name="cpassword"
+                            placeholder="Confirm Password" title="Must match the password" required>
+                    </div>
+                    <button type="submit" class="btn btn-dark">Register</button>
+                </form>
+            </div>
+            <div id="message">
+                <h5>Password must contain the following:</h5>
+                <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+                <p id="number" class="invalid">A <b>number</b></p>
+                <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+              </div>
+            <script>
+                var myInput = document.getElementById("password");
+                var letter = document.getElementById("letter");
+                var capital = document.getElementById("capital");
+                var number = document.getElementById("number");
+                var length = document.getElementById("length");
+                
+                // When the user clicks on the password field, show the message box
+                myInput.onfocus = function() {
+                  document.getElementById("message").style.display = "block";
+                }
+                
+                // When the user clicks outside of the password field, hide the message box
+                myInput.onblur = function() {
+                  document.getElementById("message").style.display = "none";
+                }
+                
+                // When the user starts to type something inside the password field
+                myInput.onkeyup = function() {
+                  // Validate lowercase letters
+                  var lowerCaseLetters = /[a-z]/g;
+                  if(myInput.value.match(lowerCaseLetters)) {
+                    letter.classList.remove("invalid");
+                    letter.classList.add("valid");
+                  } else {
+                    letter.classList.remove("valid");
+                    letter.classList.add("invalid");
+                }
+                
+                  // Validate capital letters
+                  var upperCaseLetters = /[A-Z]/g;
+                  if(myInput.value.match(upperCaseLetters)) {
+                    capital.classList.remove("invalid");
+                    capital.classList.add("valid");
+                  } else {
+                    capital.classList.remove("valid");
+                    capital.classList.add("invalid");
+                  }
+                
+                  // Validate numbers
+                  var numbers = /[0-9]/g;
+                  if(myInput.value.match(numbers)) {
+                    number.classList.remove("invalid");
+                    number.classList.add("valid");
+                  } else {
+                    number.classList.remove("valid");
+                    number.classList.add("invalid");
+                  }
+                
+                  // Validate length
+                  if(myInput.value.length >= 8) {
+                    length.classList.remove("invalid");
+                    length.classList.add("valid");
+                  } else {
+                    length.classList.remove("valid");
+                    length.classList.add("invalid");
+                  }
+                }
+            </script>
         </div>
-        <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes)-->
+    </section>
 
-        <div class="scroll-to-top d-lg-none position-fixed">
-            <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top"><i class="fa fa-chevron-up"></i></a>
+
+
+    <section class=" masthead bg-primary text-white text-center" id="about">
+        <div class="container ">
+            <!-- About Section Heading-->
+            <h1 style="font-size:50px" class="page-section-heading text-center text-uppercase text-white">About</h1>
+            <!-- Icon Divider-->
+            <div class="divider-custom divider-light">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- About Section Content-->
+
+            <p class="lead text-uppercase text-center">This website where done by Noor aldeen Zakarneh<br> , Bashar
+                Shamlawi and Shatha Bast with supervision of Instructor Ibtisal </p>
+            <!-- About Section Button-->
         </div>
+    </section>
+    <!-- Contact Section-->
 
-       {% load static %}
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Third party plugin JS-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-        <!-- Contact form JS-->
+    <section class="page-section portfolio" id="search">
+        <div class="container">
+            <!-- Portfolio Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Search</h2>
+            <div class="divider-custom divider-dark">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Icon Divider-->
 
-        <script src="{% static 'assets/mail/jqBootstrapValidation.js' %}"></script>
 
-        <script src="{% static 'assets/mail/contact_me.js' %}"></script>
+            <div class="divider-custom">
+                <form action="resumeForUser" method="post">
+                    {% csrf_token %}
 
-        <script src="{% static 'js/scripts.js'%}"></script>
-        
-        <script src="{% static 'js/searchUsers.js'%}"></script>
-    </body>
+                    <div class="active-cyan-3 active-cyan-4 mb-4">
+                        <input class="form-control" name="search" type="text" placeholder="Search" aria-label="Search">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Footer-->
+    <footer class="footer text-center" id="contact">
+
+        <div class="container">
+            <h1 class="page-section-heading text-center text-uppercase text-white">Contact Us</h1>
+
+            <div class=" scol-lg-3 mb-5 mb-lg-0">
+                <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-facebook-f"></i></a>
+                <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-twitter"></i></a>
+                <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-linkedin-in"></i></a>
+                <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-dribbble"></i></a>
+            </div>
+
+        </div>
+        </div>
+    </footer>
+    <!-- Copyright Section-->
+    <div class="copyright py-4 text-center text-white">
+        <div class="container"><small>Copyright © Your Website 2020</small></div>
+    </div>
+    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes)-->
+
+    <div class="scroll-to-top d-lg-none position-fixed">
+        <a class="js-scroll-trigger d-block text-center text-white rounded" href="#page-top"><i
+                class="fa fa-chevron-up"></i></a>
+    </div>
+
+    {% load static %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Third party plugin JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <!-- Contact form JS-->
+
+    <script src="{% static 'assets/mail/jqBootstrapValidation.js' %}"></script>
+
+    <script src="{% static 'assets/mail/contact_me.js' %}"></script>
+
+    <script src="{% static 'js/scripts.js'%}"></script>
+
+    <script src="{% static 'js/searchUsers.js'%}"></script>
+</body>
+
 </html>
