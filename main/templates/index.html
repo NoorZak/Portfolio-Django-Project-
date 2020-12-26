@@ -87,6 +87,7 @@
             </div>
         </div>
     </nav>
+   
     <!-- Masthead-->
     <header class="masthead bg-primary text-white text-center">
 
@@ -109,13 +110,6 @@
 
 
     <section class="page-section portfolio" id="login">
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
         <div class="container">
             <!-- Portfolio Section Heading-->
             <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Login</h2>
@@ -124,10 +118,16 @@
                 <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                 <div class="divider-custom-line"></div>
             </div>
+            {% if messages %}
+            <ul class="messages">    
+            {% for message in messages %}    
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+            {% endfor %}
+            </ul>
+            {% endif %}
             <div class="divider-custom">
                 <form class="col-md-offset-3 col-md-6" action="login" method="post">
                     {% csrf_token %}
-
                     <div class="form-group">
                         <label for="logged_email" class="control-label">Email</label>
                         <input type="email" class="form-control" id="logged_email" name="logged_email"
@@ -143,13 +143,6 @@
     </section>
     <section class="page-section portfolio" id="register">
 
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
 
         <div class="container">
             <!-- Portfolio Section Heading-->
@@ -174,7 +167,7 @@
                     </div>
                     <div class="form-group">
                         <label for="email" class="control-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required>
                     </div>
                     <div class="form-group">
                         <label for="password" class="control-label">Password</label>

@@ -6,7 +6,7 @@ from django.shortcuts import render,redirect
 from django.http.response import JsonResponse
 from .models import *
 import re	# the regex module
-import bcrypt
+#import bcrypt
 from django.core.files.storage import FileSystemStorage
 import json
 from django.http import JsonResponse
@@ -326,6 +326,7 @@ def usersInsert(request):
     }
     return render(request,"temp.html",context)
 
+
 def usersDoInsert(request):
 
     if "logged_id" not in request.session:
@@ -384,6 +385,7 @@ def register(request):
 
 
 def login(request):
+    
     if request.POST:
         errors = User.objects.login_validator(request.POST)
         if len(errors) > 0:

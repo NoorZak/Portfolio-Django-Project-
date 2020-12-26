@@ -14,7 +14,7 @@ class UserManager(models.Manager):
         if len(postData['password']) < 8:
             errors["password"] = "Passwords should be more than 8 characters"
 
-        if (postData["password"] !=postData['cpassword']) :
+        if postData["password"] != postData["cpassword"]:
             errors["password"] = "Passwords should match"
 
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
@@ -25,10 +25,8 @@ class UserManager(models.Manager):
     def login_validator(self, postData):
         errors = {}
         user = User.objects.filter(email=postData['logged_email'])
-
         if not user:
             errors['email'] = "Please enter a valid email address."
-
         return  errors
 
 class User(models.Model):
